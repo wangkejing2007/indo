@@ -3,70 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>懸浮按鈕範例</title>
+<title>ISIF 2025 印尼科展</title>
 <style>
-  /* 懸浮容器樣式 */
-  .floating-btn-container {
-    position: fixed; /* 固定位置，不隨卷軸移動 */
-    bottom: 20px;    /* 距離底部 20px */
-    left: 50%;       /* 水平置中定位起始點 */
-    transform: translateX(-50%); /* 修正置中偏移 */
-    display: flex;   /* 啟用彈性盒模型讓按鈕並排 */
-    gap: 15px;       /* 按鈕之間的間距 */
-    z-index: 1000;   /* 確保層級最高，蓋過其他內容 */
-    width: 90%;      /* 在手機版保留一些邊距 */
-    justify-content: center; /* 內容置中 */
-    pointer-events: none; /* 容器本身不阻擋點擊，讓穿透到底層 */
+  /* 1. 置中容器樣式 */
+  .center-floating-container {
+    position: fixed;      /* 固定定位，不隨卷軸移動 */
+    top: 50%;             /* 垂直位置設定在 50% */
+    left: 50%;            /* 水平位置設定在 50% */
+    /* 關鍵指令：將元素往回移動自身寬高的一半，達到視覺上的絕對置中 */
+    transform: translate(-50%, -50%); 
+    
+    display: flex;        /* 啟用彈性盒模型讓按鈕並排 */
+    gap: 20px;            /* 按鈕之間的間距 */
+    z-index: 9999;        /* 確保在最上層 */
+    width: 90%;           /* 手機版寬度限制 */
+    justify-content: center; /* 內容對齊 */
+    align-items: center;     /* 垂直對齊 */
+    pointer-events: none;    /* 容器不阻擋點擊（若按鈕外有空隙可點穿） */
   }
 
-  /* 按鈕共同樣式 */
+  /* 2. 按鈕共同樣式 */
   .float-btn {
-    pointer-events: auto; /* 恢復按鈕的可點擊性 */
-    text-decoration: none; /* 移除超連結底線 */
+    pointer-events: auto;  /* 恢復按鈕可點擊 */
+    text-decoration: none; /* 移除底線 */
     color: white;          /* 文字顏色 */
-    padding: 12px 20px;    /* 內距 (上下, 左右) */
-    border-radius: 50px;   /* 圓角設計 */
-    font-size: 16px;       /* 字體大小 */
-    font-weight: bold;     /* 粗體 */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3); /* 陰影效果 */
-    transition: transform 0.2s, box-shadow 0.2s; /* 動畫過渡 */
+    padding: 15px 30px;    /* 內距加大，讓按鈕在畫面中間更顯眼 */
+    border-radius: 10px;   /* 圓角 */
+    font-size: 18px;       /* 字體加大 */
+    font-weight: bold;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3); /* 較深的陰影增加立體感 */
+    transition: transform 0.2s, box-shadow 0.2s;
     text-align: center;
-    white-space: nowrap;   /* 防止文字換行 */
+    white-space: nowrap;   /* 不換行 */
+    flex: 1;               /* 讓兩個按鈕寬度平均分配 (手機版好用) */
+    max-width: 250px;      /* 限制最大寬度 */
   }
 
-  /* 按鈕 1：線上比賽 (例如設定為藍色) */
+  /* 線上比賽按鈕 (藍色系) */
   .btn-online {
-    background-color: #007bff; 
+    background: linear-gradient(135deg, #007bff, #0056b3); /* 漸層增加質感 */
   }
 
-  /* 按鈕 2：線下比賽 (例如設定為綠色或深色，以此區分) */
+  /* 線下比賽按鈕 (綠色系) */
   .btn-offline {
-    background-color: #28a745;
+    background: linear-gradient(135deg, #28a745, #1e7e34); /* 漸層增加質感 */
   }
 
-  /* 滑鼠懸停效果 */
+  /* 滑鼠懸停特效 */
   .float-btn:hover {
-    transform: translateY(-2px); /* 輕微上浮 */
-    box-shadow: 0 6px 8px rgba(0,0,0,0.4);
+    transform: scale(1.05); /* 稍微放大 */
+    box-shadow: 0 15px 25px rgba(0,0,0,0.4);
   }
 
-  /* 手機版響應式調整 (選用) */
+  /* 手機版響應式 (螢幕小於 600px 時改為上下排列，避免太擠) */
+  /* 如果您堅持在手機上也要並排，請刪除下面這段 @media 區塊 */
   @media (max-width: 600px) {
+    .center-floating-container {
+      flex-direction: column; /* 改為垂直排列 */
+    }
     .float-btn {
-      font-size: 14px;
-      padding: 10px 15px;
+      width: 100%; /* 手機版按鈕填滿 */
     }
   }
 </style>
 </head>
 <body>
 
-  <div style="height: 2000px; padding: 20px;">
-    <h1>網頁內容範例</h1>
-    <p>請往下捲動查看懸浮按鈕效果。</p>
+  <div style="padding: 20px; opacity: 0.3;">
+    <h1>背景內容範例</h1>
+    <p>這裡的文字會被懸浮按鈕遮擋。</p>
+    <p>按鈕現在位於螢幕的正中央。</p>
   </div>
 
-  <div class="floating-btn-container">
+  <div class="center-floating-container">
     <a href="SK_PEMENANG_ISIF_MASTER_-_SECONDARY.pdf" target="_blank" class="float-btn btn-online">
       線上比賽得獎名單
     </a>
